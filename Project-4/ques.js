@@ -103,3 +103,88 @@ router.put('/users/:id', async (req, res) => {
 // Correct Answer: C
 // Explanation: The route updates a user's information in the database using the `User.findByIdAndUpdate()` method.
 
+
+// Question 5
+
+
+// What is the purpose of the following Express route?
+
+const express = require('express');
+const mongoose = require('mongoose');
+
+const app = express();
+
+const quizSchema = new mongoose.Schema({
+  question: String,
+  options: [String],
+  correctAnswerIndex: Number
+});
+
+const Quiz = mongoose.model('Quiz', quizSchema);
+
+
+
+app.get('/quiz/:id', async (req, res) => {
+  try {
+    const quizId = req.params.id;
+    const quiz = await Quiz.findById(quizId);
+    res.json(quiz);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+
+
+// A) It defines a route for creating a new quiz.
+// B) It defines a route for updating a quiz.
+// C) It defines a route for retrieving a quiz based on its ID.
+// D) It defines a route for deleting a quiz.
+
+// Correct Answer: C) It defines a route for retrieving a quiz based on its ID.
+// Explanation: The route listens for GET requests at '/quiz/:id', where ":id" is a parameter representing the quiz's ID. It uses Mongoose to fetch the quiz from the database based on the provided ID and sends it as a JSON response.
+
+
+// Question 6
+// What is the purpose of the following Express route?
+
+const express = require('express');
+const mongoose = require('mongoose');
+
+const app = express();
+
+const bookSchema = new mongoose.Schema({
+  title: String,
+  author: String,
+  publicationYear: Number
+});
+
+const Book = mongoose.model('Book', bookSchema);
+
+
+
+app.post('/books', async (req, res) => {
+  try {
+    const { title, author, publicationYear } = req.body;
+    const newBook = new Book({ title, author, publicationYear });
+    const savedBook = await newBook.save();
+    res.json(savedBook);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+// A) It defines a route for creating a new book.
+// B) It defines a route for updating book details.
+// C) It defines a route for retrieving book information.
+// D) It defines a route for deleting a book.
+
+// Correct Answer: A) It defines a route for creating a new book.
+// Explanation: The route listens for POST requests at '/books' and expects the request body to contain information about a new book. It creates a new "Book" instance based on the received data, saves it to the database, and then sends the saved book as a JSON response.
+
+
+
+
+
+
+
